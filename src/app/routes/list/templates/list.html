@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% block title %} To Do List {% endblock %}
+{% block content %}
+<div class="container box">
+    <div class="columns is-vcentered is-muiltiline">
+        <div class="column is-narrow">
+            {# Jinja FIlter to count the list #}
+            {# FIXED: Changed list_item to list_items #}
+            <h1>{{ list_items | length }} Tasks</h1>
+        </div>
+        <div class="column has-text-centered">
+            <h1 class="tag is-rounded title is-4">
+                <div class="icon mr-2">
+                    <i class="fas fa-users"></i>
+                </div>
+                <span>To-Do-List</span>
+            </h1>
+        </div>
+        <div class="column is-narrow">
+            <button
+                class="button is-outlined is-info"
+                hx-get="{{ url_for('list_item.add_list_item') }}"
+                hx-target="#add-list-item"
+            >
+                <span class="icon">
+                    <i class="fa-solid fa-plus"></i>
+                </span>
+                <span>Add Tasks</span>
+            </button>
+        </div>
+    </div>
+    <div class="columns is-muiltiline">
+        <div class="column">
+            <div class="box">
+                <table class="table is-fullwidth is-striped">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Task Name</th>
+                            <th>To Do</th>
+                            <th>Created</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {# Loop through users and display them #}
+                        {# FIXED: Changed list_items to list_items #}
+                        {% for list_item in list_items | sort(attribute='id', reverse=True) %}
+                        {# Display username and email by the user object #}
+                        <tr id="list_items-{{ list_item.id }}">
+                            <td class="is-narrow">{{ loop.index }}</td>
+                            <td>{{ list_item.task_name }}</td>
+                            <td>{{ list_item.to_do }}</td>
+                            {# FIXED: Use the formatted timestamp property #}
+                            <td>{{ list_item.formated_timestamp }}</td>
+                            <td class="has-text-right is-narrow">
+                                <a
+                                    class="button has-text-primary-50 is-outlined is-primary"
+                                    hx-get="{{ url_for('list_item.edit_list_item', list_item_id=list_item.id) }}"
+                                    hx-target="#add-list-item"
+                                >
+                                    <span class="icon">
+                                        <i class="fas fa-edit"></i>
+                                    </span>
+                                    <span>Edit</span>
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="column is-narrow" id="add-list-item">
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

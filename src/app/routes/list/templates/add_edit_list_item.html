@@ -1,0 +1,60 @@
+<div class="column is-narrow" id="add-list-item">
+<div class="box">
+    <div class="columns is-vcentered is-muiltiline">
+        <div class="column has-text-centered">
+            <h1 class="tag is-rounded title is-5">
+                <div class="icon mr-2">
+                    <i class="fas fa-user-plus"></i>
+                </div>
+                {% if not list_item %}
+                <span>Create Task</span>
+                {% else %}
+                <span>Edit Task: {{ list_item.task_name }}</span>
+                {% endif %}
+            </h1>
+        </div>
+    </div>
+    <hr/>
+    {# Default POST Data to Backend #}
+    <form method="POST" {% if not list_item %} action="{{ url_for('list_item.add_list_item') }}" {% else %} action="{{ url_for('list_item.edit_list_item', list_item_id=list_item.id) }}" {% endif %}>
+        <div class="field">
+            <label class="label is-medium">Task Name:</label>
+            <div class="field-body">
+                <div class="field">
+                    <div class="control">
+                        <input class="input" type="text" name="task_name" placeholder="Task Name" required
+                            value="{{ list_item.task_name if list_item else "" }}"
+                        >
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="field">
+            <label class="label is-medium">To Do:</label>
+            <div class="field-body">
+                <div class="field">
+                    <div class="control">
+                        <input class="input" type="text" name="to_do" placeholder="To Do" required
+                            value="{{ list_item.to_do if list_item else "" }}"
+                        >
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="field is-grouped is-grouped-centered">
+            <div class="has-text-centered ">
+                {# Default Button on forms auto submits #}
+                {% if not list_item %}
+                <button class="button is-outlined is-success">Create</button>
+                {% else %}
+                <button class="button is-outlined is-warning">Update</button>
+                {% endif %}
+            </div>
+            <div class="control">
+                {# FIXED: Changed url_for from 'list.index' to 'list_item.index' #}
+                <a class="button is-outlined is-danger" href="{{ url_for('list_item.index') }}">Cancel</a>
+            </div>
+        </div>
+    </form>
+</div>
+</div>
