@@ -1,0 +1,19 @@
+services:
+  # Database
+  db:
+    image: postgres:14.1
+    container_name: To-Do-List-Postgres
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - default
+
+volumes:
+  postgres:

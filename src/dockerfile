@@ -1,0 +1,20 @@
+FROM ghcr.io/astral-sh/uv:python3.12-alpine
+
+# Set the working directory inside the container
+WORKDIR /app
+
+COPY requirements.txt .
+
+RUN uv pip install -r requirements.txt --system
+
+# Copy the entire application into the container
+COPY . .
+
+
+RUN chmod +x gunicorn.sh
+
+# WORKDIR /app/src
+
+EXPOSE 80
+
+CMD ["gunicorn", "-c", "gunicorn_config.py", "app:create_app()"]

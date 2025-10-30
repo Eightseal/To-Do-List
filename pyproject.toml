@@ -1,0 +1,18 @@
+[project]
+name = "to-do-list"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "flask>=3.1.2",
+    "flask-dance>=7.1.0",
+    "flask-login>=0.6.3",
+    "flask-mail>=0.10.0",
+    "flask-migrate>=4.1.0",
+    "flask-sqlalchemy>=3.1.1",
+    "openpyxl>=3.1.5",
+    "pandas>=2.3.3",
+    "psycopg2>=2.9.10",
+    "python-dotenv>=1.1.1",
+]

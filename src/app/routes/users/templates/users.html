@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+{% block title %} Users {% endblock %}
+{% block content %}
+<div class="container box">
+    <div class="columns is-vcentered is-muiltiline">
+        <div class="column is-narrow">
+            {# Jinja FIlter to count the list #}
+            <h1>{{ users | length }} Users</h1>
+        </div>
+        <div class="column has-text-centered">
+            <h1 class="tag is-rounded title is-4">
+                <div class="icon mr-2">
+                    <i class="fas fa-users"></i>
+                </div>
+                <span>USERS</span>
+            </h1>
+        </div>
+        <div class="column is-narrow">
+            <button
+                class="button is-outlined is-info"
+                hx-get="{{ url_for('users.add_user') }}"
+                hx-target="#add-user"
+            >
+                <span class="icon">
+                    <i class="fa-solid fa-plus"></i>
+                </span>
+                <span>Add User</span>
+            </button>
+        </div>
+    </div>
+    <div class="columns is-muiltiline">
+        <div class="column">
+            <div class="box">
+                <table class="table is-fullwidth is-striped">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Username</th>
+                            <th>Email</th>
+                            <th>Active</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {# Loop through users and display them #}
+                        {% for user in users | sort(attribute='id', reverse=True) %}
+                        {# Display username and email by the user object #}
+                        <tr id="users-{{ user.id }}">
+                            <td class="is-narrow">{{ loop.index }}</td>
+                            <td>{{ user.username }}</td>
+                            <td>{{ user.email }}</td>
+                            <td class="is-narrow">
+                                {% if user.active %}
+                                <span class="tag is-success">Active</span>
+                                {% else %}
+                                <span class="tag is-danger">Inactive</span>
+                                {% endif %}
+                            </td>
+                            <td class="has-text-right is-narrow">
+                                <a
+                                    class="button is-outlined is-warning"
+                                    hx-get="{{ url_for('users.edit_user', user_id=user.id) }}"
+                                    hx-target="#add-user"
+                                >
+                                    <span class="icon">
+                                        <i class="fas fa-edit"></i>
+                                    </span>
+                                    <span>Edit</span>
+                                </a>
+                                {% if not user.active %}
+                                <button class="button is-outlined is-success"
+                                    hx-get="{{ url_for('users.toggle_active', user_id=user.id) }}"
+                                    hx-target="#users-{{ user.id }}"
+                                    hx-select="#users-{{ user.id }}"
+                                    hx-swap="outerHTML"
+
+                                >
+                                    <span class="icon">
+                                        <i class="fas fa-check"></i>
+                                    </span>
+                                    <span>Active</span>
+                                </button>
+                                {% else %}
+                                <button class="button is-outlined is-danger"
+                                    hx-get="{{ url_for('users.toggle_active', user_id=user.id) }}"
+                                    hx-target="#users-{{ user.id }}"
+                                    hx-select="#users-{{ user.id }}"
+                                    hx-swap="outerHTML"
+
+                                >
+                                    <span class="icon">
+                                        <i class="fas fa-times"></i>
+                                    </span>
+                                    <span>Inactive</span>
+                                </button>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="column is-narrow" id="add-user">
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+{% endblock %}
